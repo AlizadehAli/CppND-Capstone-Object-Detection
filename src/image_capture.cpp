@@ -12,5 +12,5 @@ bool ImageCapture::GetNextFrame(cv::Mat &frame)
     }
 
     end_of_file_ = true;
-    return EndOfFile();
+    return !EndOfFile();
 }

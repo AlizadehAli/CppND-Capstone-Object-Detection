@@ -8,6 +8,11 @@ MediaCapture::MediaCapture(std::string &media_path)
     {
         cap_.open(media_path);
     }
+
+    else
+    {
+        throw std::runtime_error("Error opening the image/video!!!\n");
+    }
 }
 
 bool MediaCapture::EndOfFile()
