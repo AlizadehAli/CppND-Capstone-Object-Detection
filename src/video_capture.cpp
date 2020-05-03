@@ -18,3 +18,13 @@ bool VideoCapture::GetNextFrame(cv::Mat &frame)
 
     return !EndOfFile();
 }
+
+int VideoCapture::GetFrameWidth()
+{
+    return cap_.get(cv::CAP_PROP_FRAME_WIDTH);
+}
+
+int VideoCapture::GetFrameHeight()
+{
+    return cap_.get(cv::CAP_PROP_FRAME_HEIGHT);
+}

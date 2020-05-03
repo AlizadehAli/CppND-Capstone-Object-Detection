@@ -8,6 +8,10 @@ class VideoCapture : public MediaCapture
 public:
   VideoCapture(std::string &video_path);
   bool GetNextFrame(cv::Mat &frame) override;
+
+  int GetFrameWidth();
+  int GetFrameHeight();
+
   ~VideoCapture(){};
 };
 
