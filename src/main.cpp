@@ -23,16 +23,16 @@ int main(int argc, char **argv)
 {
     std::cout << "Hello World \n";
 
-    std::string video_path("/Users/anuragkankanala/Documents/Udacity_C++_Nanodegree/CppND-Capstone/data/run.mp4");
+    std::string video_path("../data/run.mp4");
     std::unique_ptr<VideoCapture> capture = std::make_unique<VideoCapture>(video_path);
     //VideoCapture capture(video_path);
 
     static const std::string kWinName = "Deep learning object detection in OpenCV";
     cv::namedWindow(kWinName, cv::WINDOW_NORMAL);
 
-    std::string config_path{"/Users/anuragkankanala/Documents/Udacity_C++_Nanodegree/CppND-Capstone/data/yolov3-tiny.cfg"};
-    std::string weights_path{"/Users/anuragkankanala/Documents/Udacity_C++_Nanodegree/CppND-Capstone/data/yolov3-tiny.weights"};
-    std::string classes_path{"/Users/anuragkankanala/Documents/Udacity_C++_Nanodegree/CppND-Capstone/data/object_detection_classes_yolov3.txt"};
+    std::string config_path{"../data/yolov3-tiny.cfg"};
+    std::string weights_path{"../data/yolov3-tiny.weights"};
+    std::string classes_path{"../data/object_detection_classes_yolov3.txt"};
 
     std::unique_ptr<ObjectDetector> detector = std::make_unique<ObjectDetector>(config_path, weights_path, classes_path);
 
