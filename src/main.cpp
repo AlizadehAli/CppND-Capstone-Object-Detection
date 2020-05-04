@@ -3,24 +3,40 @@
 #include <iostream>
 
 #include "video_capture.h"
+#include "video_writer.h"
+#include "object_detector.h"
+#include "buffer.h"
+#include "video_process.h"
+#include <memory>
+
+enum MediaType
+{
+    image = 0,
+    video = 1
+};
+
+Buffer<cv::Mat> frame_buffer;
+std::string video_out = "out.avi";
+std::string image_out = "out.jpg";
 
 int main(int argc, char **argv)
 {
     std::cout << "Hello World \n";
 
     std::string video_path("/Users/anuragkankanala/Documents/Udacity_C++_Nanodegree/CppND-Capstone/data/run.mp4");
-    VideoCapture capture(video_path);
+    std::unique_ptr<VideoCapture> capture = std::make_unique<VideoCapture>(video_path);
+    //VideoCapture capture(video_path);
 
     static const std::string kWinName = "Deep learning object detection in OpenCV";
     cv::namedWindow(kWinName, cv::WINDOW_NORMAL);
 
-    cv::Mat frame;
-    capture.GetNextFrame(frame);
+    std::string config_path{"/Users/anuragkankanala/Documents/Udacity_C++_Nanodegree/CppND-Capstone/data/yolov3-tiny.cfg"};
+    std::string weights_path{"/Users/anuragkankanala/Documents/Udacity_C++_Nanodegree/CppND-Capstone/data/yolov3-tiny.weights"};
+    std::string classes_path{"/Users/anuragkankanala/Documents/Udacity_C++_Nanodegree/CppND-Capstone/data/object_detection_classes_yolov3.txt"};
 
-    while (cv::waitKey(1) < 0)
-    {
-        cv::imshow(kWinName, frame);
-    }
+    std::unique_ptr<ObjectDetector> detector = std::make_unique<ObjectDetector>(config_path, weights_path, classes_path);
 
+    VideoProcess video_process(std::move(capture), std::move(detector));
+    video_process.RunThreads();
     return 0;
 }

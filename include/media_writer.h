@@ -10,6 +10,7 @@
 class MediaWriter
 {
 public:
+    MediaWriter(){};
     MediaWriter(std::string &output_path);
     virtual void WriteFrame(cv::Mat &frame) = 0;
     ~MediaWriter(){};

@@ -7,6 +7,8 @@ class VideoWriter : public MediaWriter
 {
 public:
     VideoWriter(std::string &video_outpath);
+    VideoWriter(const VideoWriter &other); //copy constructor
+    VideoWriter(VideoWriter &&other);
     void WriteFrame(cv::Mat &frame) override;
     void SetFrameDimensions(int width, int height);
     void OpenVideoStream();

@@ -1,7 +1,22 @@
 #include "video_writer.h"
 
-VideoWriter::VideoWriter(std::string &video_outpath) : MediaWriter(video_outpath) {}
+VideoWriter::VideoWriter(std::string &video_outpath) : MediaWriter(video_outpath)
+{
+}
 
+VideoWriter::VideoWriter(const VideoWriter &other)
+{
+    video_writer_ = other.video_writer_;
+    frame_width_ = other.frame_width_;
+    frame_height_ = other.frame_height_;
+}
+
+VideoWriter::VideoWriter(VideoWriter &&other)
+{
+    video_writer_ = std::move(other.video_writer_);
+    frame_width_ = std::move(other.frame_width_);
+    frame_height_ = std::move(other.frame_height_);
+}
 void VideoWriter::WriteFrame(cv::Mat &frame)
 {
     video_writer_.write(frame);
