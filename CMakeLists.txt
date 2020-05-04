@@ -1,6 +1,7 @@
 cmake_minimum_required( VERSION 3.7 )
 set(CMAKE_CXX_STANDARD 14)
 add_definitions( -std=c++14 )
+set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} "-std=c++14 -pthread")
 project( HotDogDetector )
 find_package( OpenCV REQUIRED NO_MODULE PATHS /usr/local/lib/cmake/opencv4 NO_DEFAULT_PATH)
 include_directories( ${OpenCV_INCLUDE_DIRS} )
