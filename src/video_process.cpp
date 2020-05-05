@@ -59,6 +59,7 @@ void VideoProcess::ProcessThread()
         // cv::imshow(kWinName, detected_frame);
         // cv::waitKey(30);
     }
+    stop_ui_ = true;
     std::cout << "Video out written to : " << video_out << "\n";
     video_writer_->CloseVideoStream();
 }
@@ -69,17 +70,11 @@ void VideoProcess::UIThread()
     cv::waitKey(1000);
     static const std::string kWinName = "Deep learning object detection in OpenCV";
     cv::namedWindow(kWinName, cv::WINDOW_NORMAL);
-    while (true)
+    while (!stop_ui_)
     {
         if (cv::waitKey(50) >= 0)
             break;
         cv::imshow(kWinName, ui_frame_);
-
-        if (frame_buffer_.EndOfBuffer())
-        {
-            cv::waitKey(30);
-            break;
-        }
     }
 }
 

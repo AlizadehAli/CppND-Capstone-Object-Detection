@@ -8,6 +8,7 @@
 #include "video_capture.h"
 #include <future>
 #include <thread>
+#include <atomic>
 
 class VideoProcess
 {
@@ -28,6 +29,7 @@ private:
 
     Buffer<cv::Mat> frame_buffer_;
     cv::Mat ui_frame_;
+    std::atomic<bool> stop_ui_{false};
     std::vector<std::thread> threads_;
     std::unique_ptr<VideoCapture> capture_{nullptr};
     std::unique_ptr<VideoWriter> video_writer_{nullptr};
