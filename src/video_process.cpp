@@ -40,13 +40,11 @@ void VideoProcess::FrameRead()
 void VideoProcess::ProcessThread()
 {
     std::cout << "Starting process thread...\n";
-    int num_frames{0};
     while (!frame_buffer_.EndOfBuffer())
     {
         cv::Mat frame_to_process = frame_buffer_.pop();
         if (!frame_to_process.empty())
         {
-            num_frames++;
             std::promise<cv::Mat> promise;
             std::future<cv::Mat> future = promise.get_future();
 
@@ -60,7 +58,6 @@ void VideoProcess::ProcessThread()
         }
     }
     stop_ui_ = true;
-    std::cout << "Frames processed : " << num_frames << "\n";
     std::cout << "Video out written to : " << video_out << "\n";
     video_writer_->CloseVideoStream();
 }
