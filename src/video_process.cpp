@@ -23,14 +23,17 @@ void VideoProcess::RunThreads()
 
 void VideoProcess::FrameRead()
 {
-
+    std::cout << "Frame reading thread started...\n";
+    int num_frames{0};
     while (!capture_->EndOfFile())
     {
         cv::Mat frame;
         capture_->GetNextFrame(frame);
         frame_buffer_.add(std::move(frame));
+        num_frames++;
     }
     frame_buffer_.SetEndOfFile(true);
+    std::cout << "File read finished. Read frames : " << num_frames << "\n";
 }
 
 void VideoProcess::ProcessThread()
@@ -38,17 +41,21 @@ void VideoProcess::ProcessThread()
     while (!frame_buffer_.EndOfBuffer())
     {
         cv::Mat frame_to_process = frame_buffer_.pop();
-        std::promise<cv::Mat> promise;
-        std::future<cv::Mat> future = promise.get_future();
+        if (!frame_to_process.empty())
+        {
+            std::promise<cv::Mat> promise;
+            std::future<cv::Mat> future = promise.get_future();
 
-        //can spawn multiple threads later
-        std::thread t(&VideoProcess::ProcessFrame, this, std::move(promise), std::ref(frame_to_process));
-        cv::Mat detected_frame = future.get();
-        t.join();
+            //TODO can spawn multiple threads later
+            std::thread t(&VideoProcess::ProcessFrame, this, std::move(promise), std::ref(frame_to_process));
+            cv::Mat detected_frame = future.get();
+            t.join();
 
-        video_writer_->WriteFrame(detected_frame);
-        cv::imshow(kWinName, detected_frame);
-        cv::waitKey(30);
+            video_writer_->WriteFrame(detected_frame);
+        }
+
+        // cv::imshow(kWinName, detected_frame);
+        // cv::waitKey(30);
     }
     video_writer_->CloseVideoStream();
 }
@@ -56,7 +63,7 @@ void VideoProcess::ProcessThread()
 void VideoProcess::ProcessFrame(std::promise<cv::Mat> prom, cv::Mat &frame)
 {
     cv::Mat detected_frame = object_detector_->DetectObjects(frame);
-    prom.set_value(detected_frame);
+    prom.set_value(std::move(detected_frame));
 }
 
 VideoProcess::~VideoProcess()
