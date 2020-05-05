@@ -59,6 +59,7 @@ void VideoProcess::ProcessThread()
         // cv::imshow(kWinName, detected_frame);
         // cv::waitKey(30);
     }
+    std::cout << "Video out written to : " << video_out << "\n";
     video_writer_->CloseVideoStream();
 }
 
@@ -73,6 +74,12 @@ void VideoProcess::UIThread()
         if (cv::waitKey(50) >= 0)
             break;
         cv::imshow(kWinName, ui_frame_);
+
+        if (frame_buffer_.EndOfBuffer())
+        {
+            cv::waitKey(30);
+            break;
+        }
     }
 }
 
