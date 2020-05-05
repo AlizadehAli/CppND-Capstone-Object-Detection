@@ -4,7 +4,7 @@ This is a repo for the Capstone project in the [Udacity C++ Nanodegree Program](
 
 I have implemented an ObjectDetection service using YOLO_V3 and OpenCV. It accepts an image/video as input and outputs a image/video with detections.
 
-The project satisfies the following rubric points:
+The project satisfies the following [rubric](https://review.udacity.com/#!/rubrics/2533/view) points:
 1. The submission must compile and run.
 2. The project demonstrates an understanding of C++ functions and control structures.
 3. The project reads data from a file and process the data, or the program writes data to a file.
