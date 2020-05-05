@@ -5,6 +5,7 @@
 #include <opencv2/highgui.hpp>
 #include <opencv2/imgproc.hpp>
 
+//Base class to capture frames from image or video.
 class MediaCapture
 {
 public:

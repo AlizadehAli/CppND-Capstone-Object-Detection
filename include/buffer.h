@@ -35,10 +35,6 @@ template <typename T>
 T Buffer<T>::pop()
 {
     std::unique_lock<std::mutex> lock(mutex_);
-    // if (EndOfBuffer())
-    // {
-    //     return nullptr;
-    // }
     condition_.wait(lock, [this]() { return !queue_.empty(); });
 
     auto to_return = std::move(queue_.front());

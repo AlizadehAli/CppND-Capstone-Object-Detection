@@ -7,6 +7,7 @@
 #include <sstream>
 #include <iostream>
 
+//Base class to write frames to a file.
 class MediaWriter
 {
 public:

@@ -3,6 +3,7 @@
 
 #include "media_capture.h"
 
+//Inherits MediaCapture. Captures image and returns a frame.
 class ImageCapture : public MediaCapture
 {
 public:
