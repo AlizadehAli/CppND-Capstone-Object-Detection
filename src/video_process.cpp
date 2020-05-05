@@ -19,6 +19,7 @@ void VideoProcess::RunThreads()
 {
     threads_.emplace_back(std::thread(&VideoProcess::FrameRead, this));
     threads_.emplace_back(std::thread(&VideoProcess::ProcessThread, this));
+    threads_.emplace_back(std::thread(&VideoProcess::UIThread, this));
 }
 
 void VideoProcess::FrameRead()
@@ -51,6 +52,7 @@ void VideoProcess::ProcessThread()
             cv::Mat detected_frame = future.get();
             t.join();
 
+            ui_frame_ = detected_frame.clone();
             video_writer_->WriteFrame(detected_frame);
         }
 
@@ -58,6 +60,20 @@ void VideoProcess::ProcessThread()
         // cv::waitKey(30);
     }
     video_writer_->CloseVideoStream();
+}
+
+void VideoProcess::UIThread()
+{
+    std::cout << "Starting UI Thread...\n";
+    cv::waitKey(1000);
+    static const std::string kWinName = "Deep learning object detection in OpenCV";
+    cv::namedWindow(kWinName, cv::WINDOW_NORMAL);
+    while (true)
+    {
+        if (cv::waitKey(50) >= 0)
+            break;
+        cv::imshow(kWinName, ui_frame_);
+    }
 }
 
 void VideoProcess::ProcessFrame(std::promise<cv::Mat> prom, cv::Mat &frame)

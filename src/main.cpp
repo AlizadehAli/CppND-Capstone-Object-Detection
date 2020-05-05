@@ -27,9 +27,7 @@ int main(int argc, char **argv)
     std::unique_ptr<VideoCapture> capture = std::make_unique<VideoCapture>(video_path);
     //VideoCapture capture(video_path);
 
-    static const std::string kWinName = "Deep learning object detection in OpenCV";
-    cv::namedWindow(kWinName, cv::WINDOW_NORMAL);
-
+    
     std::string config_path{"../data/yolov3-tiny.cfg"};
     std::string weights_path{"../data/yolov3-tiny.weights"};
     std::string classes_path{"../data/object_detection_classes_yolov3.txt"};

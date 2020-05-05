@@ -24,8 +24,10 @@ private:
     void FrameRead();
     void ProcessFrame(std::promise<cv::Mat> prom, cv::Mat &frame);
     void ProcessThread();
+    void UIThread();
 
     Buffer<cv::Mat> frame_buffer_;
+    cv::Mat ui_frame_;
     std::vector<std::thread> threads_;
     std::unique_ptr<VideoCapture> capture_{nullptr};
     std::unique_ptr<VideoWriter> video_writer_{nullptr};
