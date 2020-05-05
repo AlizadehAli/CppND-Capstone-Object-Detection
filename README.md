@@ -1,4 +1,4 @@
-# CPPND: Capstone
+# CPPND: Capstone - Object Detection
 
 This is a repo for the Capstone project in the [Udacity C++ Nanodegree Program](https://www.udacity.com/course/c-plus-plus-nanodegree--nd213).
 
